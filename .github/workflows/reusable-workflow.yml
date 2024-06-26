@@ -1,0 +1,33 @@
+# .github/workflows/reusable-workflow.yml
+name: reusable workflow
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: 'Name of the user'
+        required: true
+        type: string
+      run-tests:
+        description: 'Whether to run tests'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Grret the user
+        run: echo "Hello, ${{ inputs.name }}!"
+        
+  test-job:
+    if: ${{ inputs.run-tests }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Directory
+        uses: actions/checkout@v4
+      - name: Run Tests
+        run: echo "Running tests..."
